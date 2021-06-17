@@ -19,7 +19,6 @@ class CreateExchangeRateTable extends Migration
             $table->string('symbol',3)->nullable(false)->comment('兑换的币种,EUR,CNY,CAD,JPY,HKD');
             $table->integer('rate')->nullable(false)->unsigned()->comment('汇率,实际上是保留6位的小数,是base:symbol的值乘以1000000');
             $table->timestamp('data_time')->index('data_time_index')->comment('这个数据的时间');
-        
             $table->timestamps();
         });
     }

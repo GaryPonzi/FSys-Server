@@ -15,19 +15,19 @@ class AuthController extends Controller
     /**
      * Get a JWT token via given credentials.
      */
-//    public function login(Request $request)
-//    {
-//        //验证参数
-//        $validatedData = $request->validate([
-//            'title' => 'required|unique:posts|max:255',
-//            'body' => 'required',
-//        ]);
-//
-//        // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token，如果登录失败则返回
-//        return ($token = Auth::guard('api')->attempt($validatedData))
-//            ? response(['token' => 'bearer ' . $token], 201)
-//            : response(['error' => '账号或密码错误'], 400);
-//    }
+    //    public function login(Request $request)
+    //    {
+    //        //验证参数
+    //        $validatedData = $request->validate([
+    //            'title' => 'required|unique:posts|max:255',
+    //            'body' => 'required',
+    //        ]);
+    //
+    //        // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token，如果登录失败则返回
+    //        return ($token = Auth::guard('api')->attempt($validatedData))
+    //            ? response(['token' => 'bearer ' . $token], 201)
+    //            : response(['error' => '账号或密码错误'], 400);
+    //    }
 
     public function login(Request $request)
     {
@@ -35,15 +35,21 @@ class AuthController extends Controller
         $rules = [
             'user_name'   => [
                 'required',
-                'exists:user',
+                'exists:users,name',
             ],
             'password' => 'required|string|min:6|max:20',
         ];
 
         // 验证参数，如果验证失败，则会抛出 ValidationException 的异常
         $params = $this->validate($request, $rules);
+        
+        $params = [
+            'name' => $params['user_name'],
+            'password' => $params['password'],
+        ];
 
         // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token，如果登录失败则返回
+
         return ($token = Auth::guard('api')->attempt($params))
             ? response(['token' => 'bearer ' . $token], 201)
             : response(['error' => '账号或密码错误'], 400);
@@ -61,4 +67,3 @@ class AuthController extends Controller
         return response(['message' => '退出成功']);
     }
 }
-

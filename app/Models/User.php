@@ -8,11 +8,13 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory,Notifiable;
 
     use Notifiable;
+
+    protected $table = 'users';
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
